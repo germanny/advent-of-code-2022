@@ -4,6 +4,12 @@ export const compose =
   (x: any) =>
     fns.reduceRight((y, f) => f(y), x);
 
+export const findObjectInArrayByKey = <T>(
+  array: { [key: string]: T }[],
+  input: string
+): { [key: string]: T } =>
+  array.find((obj) => Object.keys(obj).find((key) => obj[key] === input))!;
+
 export const getLargestNumber = (array: number[]): number =>
   array.reduce((x, y) => Math.max(x, y));
 
