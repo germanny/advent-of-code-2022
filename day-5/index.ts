@@ -10,36 +10,46 @@ type Movements = {
   endPos: number;
 };
 
+const orderedItemsToMove = <T>(
+  array: Array<T>,
+  reverseOrder: boolean
+): Array<T> => (reverseOrder ? array.reverse() : array);
+
 const reorderArrays = (
   arraysObj: Record<number, string[]>,
-  movements: Movements[]
+  movements: Movements[],
+  reverseOrder: boolean
 ) => {
   // Loop through movements
   let newArraysObj = { ...arraysObj };
   movements.forEach((move) => {
     // For each startingPos
     // Take qty of items from end of corresponding array (startingPos) in arraysObj
-    const arraysObjStartPos = newArraysObj[move.startingPos];
     // Slice and transpose qty of items in array
-    const itemsToMove = arraysObjStartPos
-      .slice(arraysObjStartPos.length - move.qty)
-      .reverse();
     // Move to array key in newArraysObj that corresponds to endPos
+    const arraysObjStartPos = newArraysObj[move.startingPos];
+    const amountToMove = arraysObjStartPos.length - move.qty;
+    const itemsToMove = arraysObjStartPos.slice(amountToMove);
+
     newArraysObj = {
       ...newArraysObj,
-      [move.startingPos]: arraysObjStartPos.slice(
-        0,
-        arraysObjStartPos.length - move.qty
+      [move.startingPos]: arraysObjStartPos.slice(0, amountToMove),
+      [move.endPos]: newArraysObj[move.endPos].concat(
+        orderedItemsToMove(itemsToMove, reverseOrder)
       ),
-      [move.endPos]: newArraysObj[move.endPos].concat(itemsToMove),
     };
   });
-  console.log({ newArraysObj });
   return newArraysObj;
 };
 
-const moveItems = reorderArrays(crateArrangement, movements);
-console.log(moveItems);
+const moveItemsReversedOrder = reorderArrays(crateArrangement, movements, true);
+const reversedFirstValues = getLastValues(moveItemsReversedOrder);
+console.log(reversedFirstValues.join("")); // FCVRLMVQP
 
-const firstValues = getLastValues(moveItems);
-console.log(firstValues.join(""));
+const moveItemsOriginalOrder = reorderArrays(
+  crateArrangement,
+  movements,
+  false
+);
+const originalFirstValues = getLastValues(moveItemsOriginalOrder);
+console.log(originalFirstValues.join("")); // RWLWGJGFD
