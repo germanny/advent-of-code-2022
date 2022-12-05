@@ -10,6 +10,14 @@ export const findObjectInArrayByKey = <T>(
 ): { [key: string]: T } =>
   array.find((obj) => Object.keys(obj).find((key) => obj[key] === input))!;
 
+// Return the first value in each array in an object of arrays
+export const getFirstValues = (obj: Record<number, string[]>) =>
+  Object.values(obj).map((item) => item[0]);
+
+// Return the first value in each array in an object of arrays
+export const getLastValues = (obj: Record<number, string[]>) =>
+  Object.values(obj).map((item) => item[item.length - 1]);
+
 export const getLargestNumber = (array: number[]): number =>
   array.reduce((x, y) => Math.max(x, y));
 
