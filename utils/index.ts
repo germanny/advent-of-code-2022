@@ -4,6 +4,12 @@ export const compose =
   (x: any) =>
     fns.reduceRight((y, f) => f(y), x);
 
+export const checkDuplicateArrayItems = <T>(
+  item: any,
+  index: number,
+  array: Array<T>
+): boolean => index !== array.indexOf(item);
+
 export const findObjectInArrayByKey = <T>(
   array: { [key: string]: T }[],
   input: string
