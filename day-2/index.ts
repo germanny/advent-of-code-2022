@@ -1,6 +1,8 @@
 import { strategy } from "./data/strategy";
 import { findObjectInArrayByKey, sumAllNumbersInArray } from "../utils";
 
+// INCOMPLETE
+
 // A for Rock, B for Paper, and C for Scissors.
 // X for Rock, Y for Paper, and Z for Scissors.
 
